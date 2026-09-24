@@ -1,0 +1,148 @@
+{
+  "template_only": true,
+  "project": "PROJECT_ID",
+  "episode": "EPISODE_ID",
+  "source_revision": "CANONICAL_REVISION",
+  "duration_seconds": 180,
+  "hook": {
+    "conflict_at_seconds": 0.0,
+    "type": "身份暴露",
+    "evidence": "SHOT_001：画面与第一句台词"
+  },
+  "voice_landings": [
+    {
+      "at_seconds": 0.5,
+      "speaker": "ROLE_A",
+      "kind": "dialogue",
+      "text": "第一句冲突台词",
+      "function": "建立威胁"
+    },
+    {
+      "at_seconds": 28,
+      "speaker": "ROLE_B",
+      "kind": "dialogue",
+      "text": "第二处话语",
+      "function": "提出条件"
+    },
+    {
+      "at_seconds": 58,
+      "speaker": "ROLE_A",
+      "kind": "inner_voice",
+      "text": "第三处话语",
+      "function": "暴露选择"
+    },
+    {
+      "at_seconds": 88,
+      "speaker": "ROLE_B",
+      "kind": "dialogue",
+      "text": "第四处话语",
+      "function": "压力升级"
+    },
+    {
+      "at_seconds": 128,
+      "speaker": "ROLE_A",
+      "kind": "dialogue",
+      "text": "第五处话语",
+      "function": "反转揭示"
+    },
+    {
+      "at_seconds": 162,
+      "speaker": "ROLE_A",
+      "kind": "dialogue",
+      "text": "第六处话语",
+      "function": "结果与新钩子"
+    }
+  ],
+  "beats": [
+    {
+      "at_seconds": 0,
+      "type": "冲突",
+      "change": "威胁立即落地",
+      "shot_id": "SHOT_001"
+    },
+    {
+      "at_seconds": 18,
+      "type": "新信息",
+      "change": "角色关系被揭露",
+      "shot_id": "SHOT_004"
+    },
+    {
+      "at_seconds": 36,
+      "type": "行动",
+      "change": "主角首次反制",
+      "shot_id": "SHOT_007"
+    },
+    {
+      "at_seconds": 54,
+      "type": "失去",
+      "change": "资源被夺",
+      "shot_id": "SHOT_010"
+    },
+    {
+      "at_seconds": 72,
+      "type": "新威胁",
+      "change": "对手加码",
+      "shot_id": "SHOT_013"
+    },
+    {
+      "at_seconds": 90,
+      "type": "关系变化",
+      "change": "盟友拒绝",
+      "shot_id": "SHOT_016"
+    },
+    {
+      "at_seconds": 108,
+      "type": "行动",
+      "change": "主角做出不可逆选择",
+      "shot_id": "SHOT_019"
+    },
+    {
+      "at_seconds": 126,
+      "type": "反转",
+      "change": "优势翻面",
+      "shot_id": "SHOT_022"
+    },
+    {
+      "at_seconds": 144,
+      "type": "兑现",
+      "change": "反击结果出现",
+      "shot_id": "SHOT_025"
+    },
+    {
+      "at_seconds": 162,
+      "type": "新钩子",
+      "change": "更大威胁进入",
+      "shot_id": "SHOT_028"
+    }
+  ],
+  "reversal": {
+    "at_seconds": 126,
+    "type": "关系翻面",
+    "foreshadow": [
+      "SHOT_004 的异常视线",
+      "SHOT_016 的拒绝"
+    ],
+    "motivation": "角色为保护秘密主动改变阵营",
+    "change": "主角从被动受困转为掌握证据",
+    "consequence": "对手失去控制并立刻升级威胁",
+    "shot_id": "SHOT_022"
+  },
+  "pressure_payoff": {
+    "pressure_start_seconds": 3,
+    "escalations": [
+      "条件加码",
+      "资源被夺",
+      "盟友拒绝"
+    ],
+    "payoff_at_seconds": 144,
+    "payoff": "主角公开证据完成反击",
+    "result": "当前危机解除，但付出关系破裂的代价"
+  },
+  "silence_segments": [
+    {
+      "start_seconds": 115,
+      "end_seconds": 120,
+      "purpose": "反转前停顿"
+    }
+  ]
+}
