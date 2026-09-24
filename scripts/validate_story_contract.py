@@ -6,14 +6,18 @@ This file never edits ArcReel. It checks a derived planning/QA view only.
 from __future__ import annotations
 import argparse
 import json
+import math
 import sys
 from pathlib import Path
 
 
 def _number(value, name, errors):
     try:
-        return float(value)
-    except (TypeError, ValueError):
+        number = float(value)
+        if isinstance(value, bool) or not math.isfinite(number):
+            raise ValueError("not a finite time")
+        return number
+    except (TypeError, ValueError, OverflowError):
         errors.append(f"{name} 必须是数字")
         return 0.0
 
@@ -25,6 +29,17 @@ def _required_text(value, name, errors):
 
 def validate(data):
     errors, warnings = [], []
+    if not isinstance(data, dict):
+        return ["契约必须是 JSON 对象"], []
+    for key in ("hook", "reversal", "pressure_payoff"):
+        if key in data and not isinstance(data[key], dict):
+            errors.append(f"{key} 必须是对象")
+    for key in ("voice_landings", "beats", "silence_segments"):
+        if key in data and (not isinstance(data[key], list) or
+                            not all(isinstance(x, dict) for x in data[key])):
+            errors.append(f"{key} 必须是对象列表")
+    if errors:
+        return errors, warnings
     if data.get("template_only") is True:
         errors.append("这是模板文件；复制到项目、填写实际证据并将 template_only 设为 false")
 
@@ -51,6 +66,8 @@ def validate(data):
     for i, item in enumerate(voices, 1):
         at = _number((item or {}).get("at_seconds"), f"voice_landings[{i}].at_seconds", errors)
         voice_times.append(at)
+        if at < 0 or (duration > 0 and at > duration):
+            errors.append(f"voice_landings[{i}] 时间 {at:g}s 超出本集范围")
         for key in ("speaker", "kind", "text", "function"):
             _required_text((item or {}).get(key), f"voice_landings[{i}].{key}", errors)
     if voice_times and min(voice_times) > 3:
@@ -99,6 +116,8 @@ def validate(data):
         _required_text(pp.get(key), f"pressure_payoff.{key}", errors)
     if payoff_at <= pressure_at:
         errors.append("压→爆顺序错误：payoff_at_seconds 必须晚于 pressure_start_seconds")
+    if pressure_at < 0 or (duration > 0 and pressure_at > duration):
+        errors.append("pressure_payoff.pressure_start_seconds 超出本集范围")
     if duration > 0 and payoff_at > duration:
         errors.append("pressure_payoff.payoff_at_seconds 超出本集时长")
 
@@ -117,6 +136,8 @@ def validate(data):
             errors.append(f"silence_segments[{i}] 超出本集范围")
         _required_text((item or {}).get("purpose"), f"silence_segments[{i}].purpose", errors)
 
+    if not silences:
+        warnings.append("空静默列表不是声音覆盖证据：需另行核对完整计划/实际声轨，未试听不记实片通过")
     return errors, warnings
 
 
@@ -133,11 +154,12 @@ def main():
         print(json.dumps(result, ensure_ascii=False, indent=2) if args.json else result["errors"][0])
         return 2
     errors, warnings = validate(data)
-    result = {"ok": not errors, "errors": errors, "warnings": warnings}
+    result = {"ok": not errors, "errors": errors, "warnings": warnings,
+              "scope": "仅校验声明的时间与结构，不证明实际正文、画面或声音合格"}
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
-        print("[PASS] 分集叙事契约通过" if not errors else "[FAIL] 分集叙事契约未通过")
+        print("[PASS] 分集叙事契约结构通过（非实际内容验收）" if not errors else "[FAIL] 分集叙事契约未通过")
         for item in errors:
             print("ERROR:", item)
         for item in warnings:

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "template_only": true,
+  "project": "",
+  "episode": "",
+  "source_revision": "",
+  "stage": "assets",
+  "phase": "prepare",
+  "targets": [],
+  "dependencies": {},
+  "visual_contract": {
+    "version": "",
+    "medium": "",
+    "shape_language": "",
+    "line_and_material": "",
+    "light_and_color": "",
+    "exclude": "",
+    "decision_evidence": ""
+  },
+  "blockers": [],
+  "evidence": [],
+  "checks": {
+    "scope_authority": {"status": "pending", "evidence": [], "findings": ""},
+    "source_alignment": {"status": "pending", "evidence": [], "findings": ""},
+    "execution_config": {"status": "pending", "evidence": [], "findings": ""},
+    "visual_contract": {"status": "pending", "evidence": [], "findings": ""},
+    "prompt_scope": {"status": "pending", "evidence": [], "findings": ""},
+    "reference_binding": {"status": "pending", "evidence": [], "findings": ""},
+    "sample_gate": {"status": "pending", "evidence": [], "findings": ""}
+  },
+  "results": []
+}

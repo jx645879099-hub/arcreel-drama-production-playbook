@@ -13,6 +13,7 @@
 
 ### 配套执行文件
 
+- 每次提交/采用前执行 [阶段准入与验收](references/production-gates.md)：先检查实际输入，再检查实际产物，按版本放行；技术状态不代替这些检查。
 - 小项目从 [一页执行卡](assets/templates/漫剧制作_一页执行卡.md) 开始。
 - 多集、多人或高风险项目使用 [完整任务包](assets/templates/漫剧制作任务包.md)，只展开适用栏目。
 - 使用 ArcReel 时再读 [ArcReel 执行适配](references/arcreel-execution.md)。创作原则与接口规则分开。
